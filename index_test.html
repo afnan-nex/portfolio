@@ -2713,6 +2713,14 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
+            max-width: 100vw;
+        }
+
+        @media (max-width: 768px) {
+            .automation-section {
+                height: 400px;
+            }
         }
 
         #grid-canvas {
@@ -4896,28 +4904,42 @@
     <script>
         /**
          * Interactive Grid Animation for Automation Section
+         * Mobile-optimized version
          */
         (function() {
             const gridCanvas = document.getElementById("grid-canvas");
             if (!gridCanvas) return;
             const ctx = gridCanvas.getContext("2d");
 
+            const isMobile = () => window.innerWidth < 768;
+
             let width, height;
-            const cellSize = 30; // Size of each grid cell
+            let cellSize = isMobile() ? 20 : 30;
             let cols, rows;
             let grid = [];
             let activeCells = [];
-            
-            const colors = ['#FF3B30', '#007AFF', '#34C759', '#FFCC00', '#FF9500', '#AF52DE']; // Red, Blue, Green, Yellow, Orange, Purple
+
+            const colors = ['#FF3B30', '#007AFF', '#34C759', '#FFCC00', '#FF9500', '#AF52DE'];
 
             let keepOutZone = { left: 0, right: 0, top: 0, bottom: 0 };
             let mouseX = -1000, mouseY = -1000;
 
+            // Throttle helper
+            function throttle(fn, ms) {
+                let last = 0;
+                return function(...args) {
+                    const now = Date.now();
+                    if (now - last >= ms) {
+                        last = now;
+                        fn.apply(this, args);
+                    }
+                };
+            }
+
             function calculateKeepOutZone() {
-                // Replicate the text mask sizing logic from the particle script
                 const baseFontSize = 120;
                 const text = "AUTOMATION";
-                
+
                 ctx.font = "bold " + baseFontSize + "px Verdana";
                 const baseTextWidth = ctx.measureText(text).width || 1;
                 const padding = Math.max(16, Math.floor(width * 0.08));
@@ -4927,7 +4949,6 @@
                 ctx.font = "bold " + fontSize + "px Verdana";
                 const actualTextWidth = ctx.measureText(text).width;
 
-                // Add 15px clearance to be safe (requested 10px)
                 const clearance = 15;
                 keepOutZone = {
                     left: (width / 2) - (actualTextWidth / 2) - clearance,
@@ -4942,17 +4963,20 @@
                 const cellRight = cellLeft + cellSize;
                 const cellTop = cy * cellSize;
                 const cellBottom = cellTop + cellSize;
-
-                return !(cellRight < keepOutZone.left || 
-                         cellLeft > keepOutZone.right || 
-                         cellBottom < keepOutZone.top || 
+                return !(cellRight < keepOutZone.left ||
+                         cellLeft > keepOutZone.right ||
+                         cellBottom < keepOutZone.top ||
                          cellTop > keepOutZone.bottom);
             }
 
             function initGrid() {
+                // Recalculate cell size on each init (handles orientation changes)
+                cellSize = isMobile() ? 20 : 30;
+
                 const parent = gridCanvas.parentElement;
-                width = parent.offsetWidth;
-                height = parent.offsetHeight;
+                // Force layout reflow for correct mobile dimensions
+                width = parent.getBoundingClientRect().width || parent.offsetWidth;
+                height = parent.getBoundingClientRect().height || parent.offsetHeight;
                 gridCanvas.width = width;
                 gridCanvas.height = height;
 
@@ -4971,8 +4995,9 @@
                     }
                 }
 
-                // Seed initial random cells (outside keep-out zone)
-                for (let i = 0; i < 5; i++) {
+                // Fewer seeds on mobile
+                const seedCount = isMobile() ? 4 : 5;
+                for (let i = 0; i < seedCount; i++) {
                     seedRandomCell();
                 }
 
@@ -4998,11 +5023,9 @@
 
             function drawFullGrid() {
                 ctx.clearRect(0, 0, width, height);
-                
-                // Draw grid lines
-                ctx.strokeStyle = "rgba(0, 0, 0, 0.1)"; // Thin dark grey/black lines
-                ctx.lineWidth = 1;
 
+                ctx.strokeStyle = "rgba(0, 0, 0, 0.1)";
+                ctx.lineWidth = 1;
                 ctx.beginPath();
                 for (let x = 0; x <= width; x += cellSize) {
                     ctx.moveTo(x, 0);
@@ -5014,103 +5037,84 @@
                 }
                 ctx.stroke();
 
-                // Draw existing cells
                 for (let x = 0; x < cols; x++) {
                     for (let y = 0; y < rows; y++) {
-                        if (grid[x][y]) {
-                            drawCell(x, y, grid[x][y]);
-                        }
+                        if (grid[x][y]) drawCell(x, y, grid[x][y]);
                     }
                 }
             }
 
             function drawCell(x, y, color) {
                 ctx.fillStyle = color;
-                // Leave a 1px border for grid lines
                 ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 2, cellSize - 2);
             }
 
             function expand() {
                 if (activeCells.length === 0) return;
-
-                // Pick a random active cell to expand from
                 const index = Math.floor(Math.random() * activeCells.length);
                 const cell = activeCells[index];
-
-                // Check neighbors
                 const neighbors = [
-                    {x: cell.x, y: cell.y - 1}, // Top
-                    {x: cell.x + 1, y: cell.y}, // Right
-                    {x: cell.x, y: cell.y + 1}, // Bottom
-                    {x: cell.x - 1, y: cell.y}  // Left
+                    {x: cell.x, y: cell.y - 1},
+                    {x: cell.x + 1, y: cell.y},
+                    {x: cell.x, y: cell.y + 1},
+                    {x: cell.x - 1, y: cell.y}
                 ];
-
-                const validNeighbors = neighbors.filter(n => {
-                    return n.x >= 0 && n.x < cols && 
-                           n.y >= 0 && n.y < rows && 
-                           grid[n.x][n.y] === null && 
-                           !isInsideKeepOut(n.x, n.y);
-                });
-
-                if (validNeighbors.length > 0) {
-                    const next = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+                const valid = neighbors.filter(n =>
+                    n.x >= 0 && n.x < cols &&
+                    n.y >= 0 && n.y < rows &&
+                    grid[n.x][n.y] === null &&
+                    !isInsideKeepOut(n.x, n.y)
+                );
+                if (valid.length > 0) {
+                    const next = valid[Math.floor(Math.random() * valid.length)];
                     grid[next.x][next.y] = cell.color;
                     activeCells.push({x: next.x, y: next.y, color: cell.color});
                     drawCell(next.x, next.y, cell.color);
                 } else {
-                    // Cell is dead (surrounded), remove from active list
                     activeCells.splice(index, 1);
                 }
             }
 
-            function mouseInteraction() {
-                if (mouseX < 0 || mouseY < 0) return;
-
-                const cellX = Math.floor(mouseX / cellSize);
-                const cellY = Math.floor(mouseY / cellSize);
-
+            function applyInteraction(px, py) {
+                const cellX = Math.floor(px / cellSize);
+                const cellY = Math.floor(py / cellSize);
                 if (cellX >= 0 && cellX < cols && cellY >= 0 && cellY < rows) {
                     if (!isInsideKeepOut(cellX, cellY)) {
                         if (grid[cellX][cellY] === null) {
-                            // Immediate growth / spawning on hover over empty cell
                             const color = colors[Math.floor(Math.random() * colors.length)];
                             grid[cellX][cellY] = color;
-                            activeCells.push({x: cellX, y: cellY, color: color});
+                            activeCells.push({x: cellX, y: cellY, color});
                             drawCell(cellX, cellY, color);
-                            
-                            // Force immediate expansion from this new block to accelerate growth
                             expand();
                             expand();
                         } else {
-                            // Hovering over an existing block changes its color randomly
                             const color = colors[Math.floor(Math.random() * colors.length)];
                             grid[cellX][cellY] = color;
                             drawCell(cellX, cellY, color);
-                            
-                            // Make sure it's in the active list so it can continue branching
                             const isActive = activeCells.some(c => c.x === cellX && c.y === cellY);
-                            if (!isActive) {
-                                activeCells.push({x: cellX, y: cellY, color: color});
-                            }
+                            if (!isActive) activeCells.push({x: cellX, y: cellY, color});
                         }
                     }
                 }
             }
 
+            function mouseInteraction() {
+                if (mouseX < 0 || mouseY < 0) return;
+                applyInteraction(mouseX, mouseY);
+            }
+
             let lastTime = 0;
-            const growthInterval = 50; // Increased timing threshold for organic slow spread
+            const growthInterval = isMobile() ? 80 : 50;
 
             function animate(timestamp) {
-                if (!isAnimating) return; // Only animate if in view
-                
+                if (!isAnimating) return;
                 if (!lastTime) lastTime = timestamp;
                 const elapsed = timestamp - lastTime;
 
                 if (elapsed > growthInterval) {
-                    // Slower growth: fewer cells per interval
-                    for (let i = 0; i < 2; i++) {
-                        expand();
-                    }
+                    // Fewer expansions per frame on mobile to save CPU/GPU
+                    const stepsPerFrame = isMobile() ? 1 : 2;
+                    for (let i = 0; i < stepsPerFrame; i++) expand();
                     lastTime = timestamp;
                 }
 
@@ -5118,22 +5122,58 @@
                 animationId = requestAnimationFrame(animate);
             }
 
-            // Mouse tracking
-            window.addEventListener('mousemove', (e) => {
+            // Mouse tracking — throttled to 16ms (~60fps)
+            const onMouseMove = throttle((e) => {
                 const rect = gridCanvas.getBoundingClientRect();
-                // Check if mouse is over the automation section
-                if (e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right) {
+                if (e.clientY >= rect.top && e.clientY <= rect.bottom &&
+                    e.clientX >= rect.left && e.clientX <= rect.right) {
                     mouseX = e.clientX - rect.left;
                     mouseY = e.clientY - rect.top;
                 } else {
                     mouseX = -1000;
                     mouseY = -1000;
                 }
+            }, 16);
+
+            // Touch tracking — passive for scroll performance
+            const onTouchMove = throttle((e) => {
+                if (!e.touches || !e.touches.length) return;
+                const rect = gridCanvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                if (touch.clientY >= rect.top && touch.clientY <= rect.bottom &&
+                    touch.clientX >= rect.left && touch.clientX <= rect.right) {
+                    applyInteraction(
+                        touch.clientX - rect.left,
+                        touch.clientY - rect.top
+                    );
+                }
+            }, 16);
+
+            const onTouchStart = (e) => {
+                if (!e.touches || !e.touches.length) return;
+                const rect = gridCanvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                applyInteraction(
+                    touch.clientX - rect.left,
+                    touch.clientY - rect.top
+                );
+            };
+
+            window.addEventListener('mousemove', onMouseMove, { passive: true });
+            gridCanvas.addEventListener('touchstart', onTouchStart, { passive: true });
+            gridCanvas.addEventListener('touchmove', onTouchMove, { passive: true });
+
+            // Resize and orientation change
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(initGrid, 150);
+            });
+            window.addEventListener('orientationchange', () => {
+                setTimeout(initGrid, 300);
             });
 
-            window.addEventListener('resize', initGrid);
-
-            // Integration with Intersection Observer to trigger on scroll
+            // Intersection Observer — trigger only when in view
             let isAnimating = false;
             let animationId = null;
             let initialized = false;
@@ -5147,7 +5187,7 @@
                         }
                         if (!isAnimating) {
                             isAnimating = true;
-                            lastTime = 0; // Reset timer
+                            lastTime = 0;
                             animationId = requestAnimationFrame(animate);
                         }
                     } else {
@@ -5155,14 +5195,14 @@
                             isAnimating = false;
                             cancelAnimationFrame(animationId);
                         }
+                        mouseX = -1000;
+                        mouseY = -1000;
                     }
                 });
-            }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+            }, { threshold: 0.1 });
 
             const automationSection = document.getElementById('automation');
-            if (automationSection) {
-                observer.observe(automationSection);
-            }
+            if (automationSection) observer.observe(automationSection);
 
         })();
     </script>
