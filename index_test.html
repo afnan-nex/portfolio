@@ -2786,6 +2786,208 @@
             user-select: none;
             z-index: 5;
         }
+
+        /* Magnetic Spotlight Marquee */
+        .spotlight {
+          position: relative;
+          width: 100%;
+          height: 100vh;
+          min-height: 700px;
+          overflow: hidden;
+          background: #ffffff;
+          color: #ffca12;
+        }
+
+        /* Marquee Strip */
+        .marquee-strip {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          z-index: 20;
+          height: 140px;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+          .marquee-strip {
+            height: 180px;
+          }
+        }
+
+        .marquee-track {
+          display: flex;
+          gap: 16px;
+          height: 100%;
+          align-items: center;
+          position: absolute;
+          top: 0;
+          left: 0;
+          will-change: transform;
+        }
+
+        .marquee-item {
+          width: 140px;
+          height: 140px;
+          flex-shrink: 0;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          background: #1a1a1a;
+        }
+
+        @media (min-width: 768px) {
+          .marquee-item {
+            width: 180px;
+            height: 180px;
+          }
+        }
+
+        .marquee-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 160px 24px 40px;
+          z-index: 30;
+          pointer-events: none;
+          mix-blend-mode: difference;
+        }
+
+        @media (min-width: 768px) {
+          .content-wrapper {
+            padding: 200px 48px 40px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .content-wrapper {
+            padding: 200px 96px 40px;
+          }
+        }
+
+        .main-title {
+          font-family: 'Instrument Serif', serif;
+          font-size: 14vw;
+          font-weight: 400;
+          line-height: 0.85;
+          letter-spacing: -0.04em;
+          margin-bottom: 60px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        @media (min-width: 768px) {
+          .main-title {
+            font-size: 10rem;
+            margin-bottom: 80px;
+          }
+        }
+
+        @media (min-width: 1200px) {
+          .main-title {
+            font-size: 12rem;
+          }
+        }
+
+        .wake-target {
+          display: inline-block;
+          position: relative;
+          will-change: transform;
+        }
+
+        /* Info Row */
+        .info-row {
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 0 16px;
+          gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+          .info-row {
+            flex-direction: row;
+            padding: 0 32px;
+            gap: 16px;
+          }
+        }
+
+        .subtitle-block {
+          flex: 1;
+          max-width: 280px;
+          text-align: left;
+        }
+
+        @media (min-width: 768px) {
+          .subtitle-block {
+            text-align: right;
+          }
+        }
+
+        .subtitle-block h3 {
+          font-size: 18px;
+          text-transform: uppercase;
+          letter-spacing: -0.02em;
+          font-weight: 500;
+          line-height: 1.1;
+        }
+
+        @media (min-width: 768px) {
+          .subtitle-block h3 {
+            font-size: 28px;
+          }
+        }
+
+        .paragraphs-block {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+          .paragraphs-block {
+            flex-direction: row;
+            gap: 40px;
+          }
+        }
+
+        .paragraph-col {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .paragraph-col .wake-target {
+          font-size: 10px;
+          line-height: 1.6;
+          white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+          .paragraph-col .wake-target {
+            font-size: 12px;
+          }
+        }
     </style>
 </head>
 
@@ -3304,7 +3506,46 @@
             </div>
         </section><!-- /Automation Section -->
 
+        <!-- Magnetic Spotlight Marquee -->
+        <section class="spotlight" id="spotlight">
+          <!-- Marquee Strip -->
+          <div class="marquee-strip" id="marqueeStrip">
+            <div class="marquee-track" id="marqueeTrack"></div>
+          </div>
 
+          <!-- Main Content -->
+          <div class="content-wrapper" id="contentWrapper">
+            <!-- Title -->
+<h1 class="main-title" id="mainTitle">
+              <div class="wake-target">Everything Python</div>
+            </h1>
+
+            <!-- Subtitle & Paragraphs -->
+            <div class="info-row">
+              <div class="subtitle-block">
+                <h3>
+                  <div class="wake-target">AUTOMATE FASTER</div>
+                  <div class="wake-target">SCALE BETTER</div>
+                </h3>
+              </div>
+
+              <div class="paragraphs-block">
+                <div class="paragraph-col">
+                  <div class="wake-target">Specializing in Python automation, data scraping,</div>
+                  <div class="wake-target">and custom backend solutions to build robust,</div>
+                  <div class="wake-target">efficient digital workflows.</div>
+                </div>
+                <div class="paragraph-col">
+                  <div class="wake-target">We prioritize performance, speed, and reliability.</div>
+                  <div class="wake-target">From web scrapers and REST APIs to complex n8n</div>
+                  <div class="wake-target">integrations and bot development, our scripts</div>
+                  <div class="wake-target">are built for scalability and modern workflows.</div>
+                  <div class="wake-target">Tailored to solve real-world data and tech challenges.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <!-- Portfolio Section -->
         <section id="portfolio" class="portfolio section">
 
@@ -3993,6 +4234,8 @@
 
     <!-- Preloader -->
     <div id="preloader"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <!-- Vendor JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
@@ -6211,6 +6454,182 @@ void main() {
         } else {
             init();
         }
+    </script>
+
+    <script>
+        (function() {
+            const config = {
+              stripFollowEase: 0.05,
+              stripEdgeInset: 175,
+              contentRiseRate: 0.85,
+              risenTopGap: 100,
+              liftHeadStart: 125,
+              wakeStrength: 2.5,
+              wakeReach: 125,
+              lineSettleEase: 0.09,
+            };
+
+            const IMAGES = [
+              "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=800&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=800&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=800&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1613376023733-0a73315d9b06?q=80&w=800&auto=format&fit=crop",
+            ];
+
+            const spotlightSection = document.getElementById('spotlight');
+            const marqueeStrip = document.getElementById('marqueeStrip');
+            const marqueeTrack = document.getElementById('marqueeTrack');
+
+            let oneSetWidth = 0;
+
+            function buildMarquee() {
+              const isMobile = window.innerWidth < 768;
+              const itemWidth = isMobile ? 140 : 180;
+              const gap = 16;
+              oneSetWidth = IMAGES.length * (itemWidth + gap);
+              const setsNeeded = Math.ceil(window.innerWidth / oneSetWidth) + 2;
+
+              marqueeTrack.innerHTML = '';
+              for (let i = 0; i < setsNeeded; i++) {
+                IMAGES.forEach((src) => {
+                  const div = document.createElement('div');
+                  div.className = 'marquee-item';
+                  const img = document.createElement('img');
+                  img.src = src;
+                  img.alt = 'Marquee item';
+                  img.loading = 'lazy';
+                  div.appendChild(img);
+                  marqueeTrack.appendChild(div);
+                });
+              }
+            }
+
+            let trackX = 0;
+            const marqueeSpeed = 2.2;
+
+            function marqueeTick() {
+              trackX -= marqueeSpeed;
+              if (trackX <= -oneSetWidth) {
+                trackX += oneSetWidth;
+              }
+              gsap.set(marqueeTrack, { x: trackX });
+            }
+
+            buildMarquee();
+            gsap.ticker.add(marqueeTick);
+
+            window.addEventListener('resize', () => {
+              buildMarquee();
+              trackX = 0;
+              gsap.set(marqueeTrack, { x: 0 });
+              measureGeometry();
+            });
+
+            let stripBaseTop = 0;
+            let stripHeight = 0;
+            let sectionHeight = 0;
+            let stripRestCenterY = 0;
+            let contentTopAtRest = 0;
+
+            let stripTargetY = 0;
+            let stripCurrentY = 0;
+            let stripPrevY = 0;
+            let hasPointerMoved = false;
+
+            let targets = [];
+            let rafId = null;
+
+            function measureGeometry() {
+              sectionHeight = spotlightSection.getBoundingClientRect().height;
+              stripBaseTop = marqueeStrip.offsetTop;
+              stripHeight = marqueeStrip.offsetHeight;
+              stripRestCenterY = config.stripEdgeInset;
+
+              const elements = Array.from(spotlightSection.querySelectorAll('.wake-target'));
+              let blockTop = Infinity;
+
+              targets = elements.map(el => {
+                let y = 0;
+                let node = el;
+                while (node && node !== spotlightSection) {
+                  y += node.offsetTop;
+                  node = node.offsetParent;
+                }
+                const restCenterY = y + el.offsetHeight / 2;
+                blockTop = Math.min(blockTop, restCenterY - el.offsetHeight / 2);
+
+                return {
+                  el,
+                  restCenterY,
+                  currentY: 0
+                };
+              });
+
+              contentTopAtRest = isFinite(blockTop) ? blockTop : sectionHeight * 0.4;
+
+              if (!hasPointerMoved) {
+                const restY = config.stripEdgeInset - stripHeight / 2;
+                stripTargetY = restY;
+                stripCurrentY = restY;
+                stripPrevY = restY;
+                gsap.set(marqueeStrip, { y: stripCurrentY });
+              }
+            }
+
+            setTimeout(measureGeometry, 200);
+
+            function handlePointerMove(e) {
+              hasPointerMoved = true;
+              const rect = spotlightSection.getBoundingClientRect();
+              const pointerY = e.clientY - rect.top;
+              stripTargetY = pointerY - stripHeight / 2;
+            }
+
+            function handlePointerLeave() {
+              hasPointerMoved = false;
+              stripTargetY = config.stripEdgeInset - stripHeight / 2;
+            }
+
+            spotlightSection.addEventListener('mousemove', handlePointerMove);
+            spotlightSection.addEventListener('mouseleave', handlePointerLeave);
+
+            function render() {
+              stripCurrentY += (stripTargetY - stripCurrentY) * config.stripFollowEase;
+              gsap.set(marqueeStrip, { y: stripCurrentY });
+
+              const stripCenterY = stripBaseTop + stripCurrentY + stripHeight / 2;
+              const stripVelocityY = stripCurrentY - stripPrevY;
+              stripPrevY = stripCurrentY;
+
+              const descentBelowRest = Math.max(0, stripCenterY - stripRestCenterY);
+              const maxRise = Math.max(0, contentTopAtRest - config.risenTopGap);
+              const contentRise = -Math.min(
+                descentBelowRest * config.contentRiseRate,
+                maxRise
+              );
+
+              targets.forEach(line => {
+                const gapToStrip = line.restCenterY - stripCenterY;
+                const reachedLine = stripCenterY + config.liftHeadStart >= line.restCenterY;
+
+                const wakeInfluence = Math.exp(
+                  -(gapToStrip * gapToStrip) / (2 * config.wakeReach * config.wakeReach)
+                );
+                const wakeOffset = stripVelocityY * wakeInfluence * config.wakeStrength;
+
+                const lineTarget = (reachedLine ? contentRise : 0) + wakeOffset;
+
+                line.currentY += (lineTarget - line.currentY) * config.lineSettleEase;
+                gsap.set(line.el, { y: line.currentY });
+              });
+
+              rafId = requestAnimationFrame(render);
+            }
+
+            rafId = requestAnimationFrame(render);
+        })();
     </script>
 </body>
 
