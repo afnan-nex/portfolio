@@ -9,12 +9,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link
-        href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFQ_SVIVRvwnx8TlsYhVqOdxrzNeVByNKvpihC_3EExdM_hgMibbLU3ubtcPj7T_tklBjPdfd_KeVZl0tA6XL_Hu3Ko1sMBmGniNHgfqw0vXL3sf3HmACX3Pk51J-7M3BBq3desD1pUz5vSjepswGEr-z9nbZpMMxyNONZsmIZWiEgNR08sUMJL-1Dy74/s16000/favicon.webp"
-        rel="icon" loading="lazy">
-    <link
-        href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFQ_SVIVRvwnx8TlsYhVqOdxrzNeVByNKvpihC_3EExdM_hgMibbLU3ubtcPj7T_tklBjPdfd_KeVZl0tA6XL_Hu3Ko1sMBmGniNHgfqw0vXL3sf3HmACX3Pk51J-7M3BBq3desD1pUz5vSjepswGEr-z9nbZpMMxyNONZsmIZWiEgNR08sUMJL-1Dy74/s16000/favicon.webp"
-        rel="apple-touch-icon" loading="lazy">
+    <link rel="icon" href="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/icon.svg" type="image/svg+xml">
 
     <!-- Fonts -->
     <!-- Keep the preconnects you already have -->
@@ -1118,6 +1113,24 @@
         /*--------------------------------------------------------------
 # Resume Section
 --------------------------------------------------------------*/
+        #resume {
+            position: relative;
+            overflow: hidden;
+        }
+        #sphereCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+            z-index: 0;
+        }
+        #resume .container {
+            position: relative;
+            z-index: 1;
+        }
+
         .resume .resume-title {
             color: var(--heading-color);
             font-size: 26px;
@@ -2648,7 +2661,7 @@
             }
         }
 
-        #resume-spinner-container {
+        #skills-spinner-container {
             position: absolute;
             z-index: 10;
             pointer-events: none;
@@ -3406,6 +3419,8 @@
                 <h2>Resume</h2>
                 <p> A brief intro about my Education and skills.</p>
             </div><!-- End Section Title -->
+
+            <canvas id="sphereCanvas"></canvas>
 
             <div class="container">
 
@@ -4818,14 +4833,14 @@
 
     <script>
         /**
-         * Bouncing Spinner in Resume Section
+         * Bouncing Spinner in Skills Section
          */
         (function () {
-            const resume = document.getElementById('resume');
-            if (!resume) return;
+            const skills = document.getElementById('skills');
+            if (!skills) return;
 
             const container = document.createElement('div');
-            container.id = 'resume-spinner-container';
+            container.id = 'skills-spinner-container';
             container.innerHTML = `
         <div class="spinner">
           <div></div>
@@ -4836,8 +4851,8 @@
           <div></div>
         </div>
       `;
-            resume.style.position = 'relative';
-            resume.appendChild(container);
+            skills.style.position = 'relative';
+            skills.appendChild(container);
 
             const size = 70.4;
             let width = resume.offsetWidth;
@@ -6629,6 +6644,87 @@ void main() {
             }
 
             rafId = requestAnimationFrame(render);
+        })();
+    </script>
+
+    <script>
+        (function() {
+          const canvas = document.getElementById('sphereCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          let frameId = 0;
+          let time = 0;
+
+          const chars = "░▒▓█▀▄▌▐│─┤├┴┬╭╮╰╯";
+
+          function resize() {
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+          }
+
+          resize();
+          window.addEventListener('resize', resize);
+
+          function render() {
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const radius = Math.min(rect.width, rect.height) * 0.525;
+
+            ctx.font = "12px monospace";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            const points = [];
+
+            for (let phi = 0; phi < Math.PI * 2; phi += 0.15) {
+              for (let theta = 0; theta < Math.PI; theta += 0.15) {
+                const x = Math.sin(theta) * Math.cos(phi + time * 0.5);
+                const y = Math.sin(theta) * Math.sin(phi + time * 0.5);
+                const z = Math.cos(theta);
+
+                const rotY = time * 0.3;
+                const newX = x * Math.cos(rotY) - z * Math.sin(rotY);
+                const newZ = x * Math.sin(rotY) + z * Math.cos(rotY);
+
+                const rotX = time * 0.2;
+                const newY = y * Math.cos(rotX) - newZ * Math.sin(rotX);
+                const finalZ = y * Math.sin(rotX) + newZ * Math.cos(rotX);
+
+                const depth = (finalZ + 1) / 2;
+                const charIndex = Math.floor(depth * (chars.length - 1));
+
+                points.push({
+                  x: centerX + newX * radius,
+                  y: centerY + newY * radius,
+                  z: finalZ,
+                  char: chars[charIndex],
+                });
+              }
+            }
+
+            points.sort((a, b) => a.z - b.z);
+
+            points.forEach((point) => {
+              const alpha = 0.2 + (point.z + 1) * 0.4;
+              ctx.fillStyle = `rgba(252, 202, 18, ${alpha})`;
+              ctx.fillText(point.char, point.x, point.y);
+            });
+
+            time += 0.02;
+            frameId = requestAnimationFrame(render);
+          }
+
+          render();
+
+          window.addEventListener('beforeunload', function() {
+            cancelAnimationFrame(frameId);
+          });
         })();
     </script>
 </body>
