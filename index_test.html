@@ -976,6 +976,32 @@
             height: 100%;
         }
 
+        @media (max-width: 1200px) {
+            #mesh-wrapper {
+                height: 160px;
+            }
+        }
+        @media (max-width: 992px) {
+            #mesh-wrapper {
+                height: 130px;
+            }
+        }
+        @media (max-width: 768px) {
+            #mesh-wrapper {
+                height: 100px;
+            }
+        }
+        @media (max-width: 576px) {
+            #mesh-wrapper {
+                height: 80px;
+            }
+        }
+        @media (max-width: 400px) {
+            #mesh-wrapper {
+                height: 65px;
+            }
+        }
+
         /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
@@ -3095,8 +3121,8 @@
                         </div>
                         <!-- Download CV button -->
                         <div class="mt-3">
-                            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIjEeFTeIi-4V4D1Zg_f4OOPtTGRrh0Tbp3bHpFvlal9EYE5mheXQlDIeV5-kbQdUn9gxB_baiknIvjiLsw48_Of4YrxDtzSSExeDSMH30S7L2M3PxH_OnoMUm9QANXIN_JIFfybCrg12xxhL1rARLV_sH-6h61Pi0ymNFVwfyqM_ZWCmMh09sDgjBVE/s16000/Afnan%20CV.png"
-                                target="_blank" rel="noopener noreferrer">
+                            <a href="https://github.com/afnan-nex/portfolio/raw/main/assets/pdfs/afnan_cv.pdf"
+                                target="_blank" rel="noopener noreferrer" download="afnan_cv.pdf">
                                 <button id="custom-cv-btn">Download CV<i class="bi-file-earmark-arrow-down"
                                         style="margin-left:8px;"></i></button>
                             </a>
@@ -4240,8 +4266,8 @@
             <h3 class="sitename">M AFNAN </h3>
             <p>Looking forward to work with you.</p>
             <div class="social-links d-flex justify-content-center">
-                <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIjEeFTeIi-4V4D1Zg_f4OOPtTGRrh0Tbp3bHpFvlal9EYE5mheXQlDIeV5-kbQdUn9gxB_baiknIvjiLsw48_Of4YrxDtzSSExeDSMH30S7L2M3PxH_OnoMUm9QANXIN_JIFfybCrg12xxhL1rARLV_sH-6h61Pi0ymNFVwfyqM_ZWCmMh09sDgjBVE/s16000/Afnan%20CV.png"
-                    target="_blank" rel="noopener noreferrer"><i class="bi bi-person-lines-fill"></i></a>
+                <a href="https://github.com/afnan-nex/portfolio/raw/main/assets/pdfs/afnan_cv.pdf"
+                    target="_blank" rel="noopener noreferrer" download="afnan_cv.pdf"><i class="bi bi-person-lines-fill"></i></a>
                 <a href="mailto:afnansiddiqui@telegmail.com" target="_blank"><i class="bi bi-envelope-fill"></i></a>
                 <a href="https://www.instagram.com/afnan_nex" target="_blank"><i class="bi bi-instagram"></i></a>
                 <a href="https://www.facebook.com/afnannex" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -4643,7 +4669,7 @@
                     event.preventDefault();
                     setTimeout(function () {
                         window.open(
-                            "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIjEeFTeIi-4V4D1Zg_f4OOPtTGRrh0Tbp3bHpFvlal9EYE5mheXQlDIeV5-kbQdUn9gxB_baiknIvjiLsw48_Of4YrxDtzSSExeDSMH30S7L2M3PxH_OnoMUm9QANXIN_JIFfybCrg12xxhL1rARLV_sH-6h61Pi0ymNFVwfyqM_ZWCmMh09sDgjBVE/s16000/Afnan%20CV.png",
+                            "https://github.com/afnan-nex/portfolio/raw/main/assets/pdfs/afnan_cv.pdf",
                             "_blank"
                         );
                     }, 200);
@@ -6315,11 +6341,35 @@ void main() {
                 : variantIsItalic(fontVariant) ? "italic" : "normal";
             const textAlign = CONFIG.font?.textAlign ?? "center";
 
+            const getResponsiveFontSize = (text, rectWidth, rectHeight) => {
+                const testCanvas = document.createElement("canvas");
+                const testCtx = testCanvas.getContext("2d");
+                testCtx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}, sans-serif`;
+                const measuredWidth = testCtx.measureText(text).width || 1;
+                
+                const maxWidth = Math.max(10, rectWidth * 0.98);
+                const maxHeight = Math.max(10, rectHeight * 0.85);
+                
+                const scaleX = maxWidth / measuredWidth;
+                const scaleY = maxHeight / fontSize;
+                const scale = Math.min(1, scaleX, scaleY);
+                
+                return Math.max(16, Math.floor(fontSize * scale));
+            };
+
             const rebuildTex = async () => {
                 const w = Math.max(2, canvas.width);
                 const h = Math.max(2, canvas.height);
                 const dpr = window.devicePixelRatio || 1;
-                const realSize = fontSize * dpr;
+                const rect = wrapper.getBoundingClientRect();
+                
+                const responsiveFontSize = getResponsiveFontSize(
+                    String(CONFIG.text ?? ""),
+                    rect.width || (w / dpr),
+                    rect.height || (h / dpr)
+                );
+                
+                const realSize = responsiveFontSize * dpr;
                 
                 try {
                     const fontStr = `${fontStyle} ${fontWeight} ${realSize}px ${fontFamily}`;
