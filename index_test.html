@@ -4,19 +4,29 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Afnan's Portfolio</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <title>Afnan's Portfolio — Web Developer, UI/UX Designer &amp; Automation Expert</title>
+    <!-- [SEO] Descriptive meta tags for better search engine visibility -->
+    <meta name="description" content="M Afnan — Web Developer, UI/UX Designer, and n8n Automation Expert. Building clean, fast, and user-friendly digital experiences. Based in Pakistan.">
+    <meta name="keywords" content="Afnan, web developer, n8n automation, WordPress, WooCommerce, Shopify, UI/UX, graphic design, Python, portfolio">
 
     <!-- Favicons -->
     <link rel="icon" href="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/icon.svg" type="image/svg+xml">
 
-    <!-- Fonts -->
-    <!-- Keep the preconnects you already have -->
+    <!-- [PERF] Preconnect to all third-party origins to reduce DNS lookup time -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link rel="preconnect" href="https://i.ibb.co" crossorigin>
+    <link rel="preconnect" href="https://blogger.googleusercontent.com" crossorigin>
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://techlybyte.com" crossorigin>
 
-    <!-- Make the fonts CSS non-blocking -->
+    <!-- [PERF] Preload the hero background image (LCP element) — eager, non-lazy -->
+    <link rel="preload" as="image" href="https://i.ibb.co/gZgB4tkt/bg-image.webp" fetchpriority="high">
+
+    <!-- [PERF] Non-blocking Google Fonts with font-display:swap via display=swap param -->
     <link rel="preload" as="style"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&family=Poppins:wght@100..900&family=Raleway:wght@100..900&family=Inter:wght@700&display=swap"
         onload="this.onload=null;this.rel='stylesheet'">
@@ -25,8 +35,7 @@
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&family=Poppins:wght@100..900&family=Raleway:wght@100..900&family=Inter:wght@700&display=swap">
     </noscript>
 
-
-    <!-- Non-blocking vendor CSS -->
+    <!-- [PERF] Non-blocking vendor CSS -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" as="style"
@@ -3006,8 +3015,9 @@
 
 <body class="index-page">
 
-    <header id="header" class="header">
-        <div class="tabs">
+    <!-- [A11Y] Semantic <header> with ARIA label for screen readers -->
+    <header id="header" class="header" role="banner">
+        <nav class="tabs" aria-label="Main navigation">
             <input type="radio" id="radio-hero" name="nav-tabs" checked>
             <label class="tab" for="radio-hero" title="Home"><i class="bi bi-house-fill"></i></label>
 
@@ -3032,17 +3042,19 @@
             <input type="radio" id="radio-contact" name="nav-tabs">
             <label class="tab" for="radio-contact" title="Contact"><i class="bi bi-envelope-fill"></i></label>
 
-            <span class="glider"></span>
-        </div>
+            <span class="glider" aria-hidden="true"></span>
+        </nav>
     </header>
 
-    <main class="main">
+    <!-- [A11Y] Semantic <main> landmark -->
+    <main id="main" class="main">
 
         <!-- Hero Section -->
         <section id="hero" class="hero section">
 
+            <!-- [PERF] Hero background — fetchpriority=high, no lazy loading (LCP element) -->
             <div id="dynamicBg">
-                <img src="https://i.ibb.co/gZgB4tkt/bg-image.webp" alt="" loading="lazy">
+                <img src="https://i.ibb.co/gZgB4tkt/bg-image.webp" alt="Abstract hero background" width="1920" height="1080" fetchpriority="high">
             </div>
 
             <div id="codeStream"></div>
@@ -3051,7 +3063,9 @@
             <div class="container" data-aos="zoom-out">
                 <div class="row justify-content-center">
                     <div class="col-lg-9">
-                        <div id="mesh-wrapper">
+                        <!-- [A11Y] Single H1 on page — portfolio owner name as primary heading -->
+                        <h1 class="visually-hidden">M Afnan — Web Developer &amp; Automation Expert Portfolio</h1>
+                        <div id="mesh-wrapper" aria-hidden="true" role="img" aria-label="Animated mesh name display">
                             <canvas id="mesh-canvas"></canvas>
                         </div>
                         <p>I'm <span class="typed"
@@ -3082,7 +3096,7 @@
                         <!-- Download CV button -->
                         <div class="mt-3">
                             <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIjEeFTeIi-4V4D1Zg_f4OOPtTGRrh0Tbp3bHpFvlal9EYE5mheXQlDIeV5-kbQdUn9gxB_baiknIvjiLsw48_Of4YrxDtzSSExeDSMH30S7L2M3PxH_OnoMUm9QANXIN_JIFfybCrg12xxhL1rARLV_sH-6h61Pi0ymNFVwfyqM_ZWCmMh09sDgjBVE/s16000/Afnan%20CV.png"
-                                target="_blank" rel="noopener noreferrer" loading="lazy">
+                                target="_blank" rel="noopener noreferrer">
                                 <button id="custom-cv-btn">Download CV<i class="bi-file-earmark-arrow-down"
                                         style="margin-left:8px;"></i></button>
                             </a>
@@ -3124,6 +3138,7 @@
         <section id="about" class="about section">
 
             <!-- Section Title -->
+            <!-- [A11Y] Section title using H2 (H1 is defined in the hero) -->
             <div class="container section-title" data-aos="fade-up">
                 <h2>About</h2>
                 <p>Hi! I'm a dedicated and driven developer who loves creating simple, efficient, and scalable digital
@@ -3171,8 +3186,9 @@
                         <!-- Liquid Distortion Image Container -->
                 <div class="row gy-4 justify-content-center">
                     <div class="col-lg-4">
+                        <!-- [A11Y] Canvas with descriptive aria-label -->
                         <div id="about-container">
-                            <canvas id="about-canvas"></canvas>
+                            <canvas id="about-canvas" aria-label="Liquid distortion portrait effect"></canvas>
                         </div>
                     </div>
                     <div class="col-lg-8 content">
@@ -3192,7 +3208,7 @@
                                                     class="badge bg-secondary ms-2">Visit</span></a></span></li>
                                     <li><i class="bi bi-chevron-right"></i> <strong>2nd Website:</strong> <span><a
                                                 href="https://www.afnandecor.store" target="_blank"
-                                                style="color: var(--heading-color)B;">www.afnandecor.store<span
+                                                style="color: var(--heading-color);">www.afnandecor.store<span
                                                     class="badge bg-secondary ms-2">Visit</span></a></span></li>
                                     <li><i class="bi bi-chevron-right"></i> <strong>3rd Website:</strong> <span><a
                                                 href="https://aibyafnan.blogspot.com/" target="_blank"
@@ -3237,7 +3253,7 @@
                                     </li>
                                     <li><i class="bi bi-chevron-right"></i> <strong>Email Me:</strong> <span><a
                                                 href="mailto:afnansiddiqui@telegmail.com" target="_blank"
-                                                style="color: var(--heading-color);">afnansiddiqui@telegmail<span
+                                                style="color: var(--heading-color);">afnansiddiqui@telegmail.com<span
                                                     class="badge bg-secondary ms-2">Send</span></a></span></li>
                                 </ul>
                             </div>
@@ -3539,9 +3555,10 @@
           <!-- Main Content -->
           <div class="content-wrapper" id="contentWrapper">
             <!-- Title -->
-<h1 class="main-title" id="mainTitle">
+<!-- [A11Y] Demoted from H1 to H2 to maintain single H1 per page \u2014 hero section owns the H1 -->
+<h2 class="main-title" id="mainTitle">
               <div class="wake-target">Everything Python</div>
-            </h1>
+            </h2>
 
             <!-- Subtitle & Paragraphs -->
             <div class="info-row">
@@ -3595,6 +3612,7 @@
 
                     <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
 
+                        <!-- [PERF] Portfolio item — video with lazy loading poster and descriptive alt -->
                         <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-automation">
                             <video class="img-fluid" style="border-radius: 10px;" autoplay muted loop playsinline
                                 poster="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiUIjeKfE7XGeqLLChuTQY0fzBZhfkFBZbKFBbDAP4HfktE8nc26NGTGtHxPBVTdhZHdXo8wfKBy0O3BgrIqJ5KJQyVrIRooxOHG3G-pz1DCccXcqQdlMdW92i_EgOAmVhzwq8ylzrkU9cXH8s574TA0Y8w2Pmu2j6njywz10RZ7PygYy-zhOaVVmhvpI/s16000/n8nmarkaz.webp"
@@ -3602,7 +3620,7 @@
                                 <source src="https://techlybyte.com/wp-content/uploads/2025/07/chrome_93eQ5ReOsR.mp4"
                                     type="video/mp4">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiUIjeKfE7XGeqLLChuTQY0fzBZhfkFBZbKFBbDAP4HfktE8nc26NGTGtHxPBVTdhZHdXo8wfKBy0O3BgrIqJ5KJQyVrIRooxOHG3G-pz1DCccXcqQdlMdW92i_EgOAmVhzwq8ylzrkU9cXH8s574TA0Y8w2Pmu2j6njywz10RZ7PygYy-zhOaVVmhvpI/s16000/n8nmarkaz.webp"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="n8n automation workflow uploading Markaz products to website" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Markaz to my site uploading</h4>
@@ -3623,7 +3641,7 @@
                                 <source src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/videos/missle_mayhem.mp4"
                                     type="video/mp4">
                                 <img src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/missle_mayhem.png"
-                                    class="img-fluid" alt="Missile Mayhem Game" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="Missile Mayhem browser game screenshot — arcade-style missile dodging game" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Missile Mayhem</h4>
@@ -3644,7 +3662,7 @@
                                 <source src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/videos/personal_vault.mp4"
                                     type="video/mp4">
                                 <img src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/personal_vault.png"
-                                    class="img-fluid" alt="Personal Vault" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="Personal Emergency Vault secure web app screenshot" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Personal Emergency Vault</h4>
@@ -3665,7 +3683,7 @@
                                 <source src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/videos/qr_code_scanner.mp4"
                                     type="video/mp4">
                                 <img src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/qr_code_scanner.png"
-                                    class="img-fluid" alt="QR Code Scanner" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="QR Code Scanner web app — camera-based QR code detection interface" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>QR Code Scanner</h4>
@@ -3699,7 +3717,7 @@
                                 <source src="https://techlybyte.com/wp-content/uploads/2025/07/Techly-Byte.mp4"
                                     type="video/mp4">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7H9kxCGbF-88nJzfk4AqqP1J9LAqrN8L58LQaz6zqMK1IVDhjLr7hzos5la34QECQnrHjHUCEuXPsmQEjXR5Gyd_O5yq5sT8aWanHH1wNcGPyNcN6ZnhLzVDcEVGFY7lm5frc8IzIbI-Zi7TSiN4jt3lNQepfJ0TqbCqerOy6AVXCb72yBtDMl3ehdTg/s16000/techlybyte.webp"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="Techly Byte WordPress blogging website homepage screenshot" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Techly Byte</h4>
@@ -3719,7 +3737,7 @@
                                 <source src="https://techlybyte.com/wp-content/uploads/2025/07/chrome_WkvU3LljFc.mp4"
                                     type="video/mp4">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEio2CpbV2aHNcqzkdxRByf4c83SAflVLQp1_DQhisDy2F8f1jqHF6du2bsBTntAo3xfWfLHh0dotT3DNr9mTxtIO7alULIpNCUxurMh2urwTKPIQzyD3VY21YzXtwjYGRme43UTjMhFiK_D4NdXSvqu1wSJDwkAkT25Bil3Sky5ixtS-_1uU_0fv6TSsSQ/s16000/n8nwordpress.webp"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="n8n workflow for automatic WordPress blog publishing every minute" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>For auto blog Publishing</h4>
@@ -3754,7 +3772,7 @@
                                 <source src="https://techlybyte.com/wp-content/uploads/2025/07/afnan-decor.mp4"
                                     type="video/mp4">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgofceVC4sJuUE7KrJ3U3u-tWs7fYg83LBFevt2x8jr-jlCY4EcdHj4mdPze2vnANtS0CMKMpp2NRzdxxqWkF8UbMTQkH0ICk5_AkuE6Vypr79-2E01iwsrV14aI00qvV3jLu_Fg_tgG5eYABza78OkXwHPtLnj0safLC_FZ4v241ZJ2ZRIwO2xCIJVaB8/s16000/afnandecor.webp"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="Afnan Decor WooCommerce store homepage screenshot" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Afnan Decor</h4>
@@ -3774,7 +3792,7 @@
                                 <source src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/videos/making_video_of_products.mp4"
                                     type="video/mp4">
                                 <img src="https://raw.githubusercontent.com/afnan-nex/portfolio/main/assets/images/making_video_of_products.png"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="n8n automation workflow creating product showcase videos from website" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>For Making video of Products</h4>
@@ -3795,7 +3813,7 @@
                                 <source src="https://techlybyte.com/wp-content/uploads/2025/07/ai-by-afnan.mp4"
                                     type="video/mp4">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJDVVqn7sSdpFGPjFWhyphenhyphen4OTX4_uRjRlEi91dEFPbP0hyphenhyphenmSsUY6Oe4Drv7XlX0or_jR42GKrlgjG027JuQzH3HTgU7_dC7GGfF3Bk-M07jSWVwKYSjRGkFrPFsu1R9AgzzAwLqTnxCiUadYS8RalpV1l_tMDyfyyoMLp3culNtRzVUwyE3ySWqF16RCci0/s16000/aibyafnan.webp"
-                                    class="img-fluid" alt="Fallback Image" style="border-radius: 10px;" loading="lazy">
+                                    class="img-fluid" alt="AI by Afnan — custom AI assistant hosted on Blogspot" style="border-radius: 10px;" loading="lazy" width="400" height="300">
                             </video>
                             <div class="portfolio-info">
                                 <h4>Ai by Afnan</h4>
@@ -4216,13 +4234,14 @@
 
     </main>
 
-    <footer id="footer" class="footer position-relative">
+    <!-- [A11Y] Semantic <footer> landmark -->
+    <footer id="footer" class="footer position-relative" role="contentinfo">
         <div class="container">
             <h3 class="sitename">M AFNAN </h3>
             <p>Looking forward to work with you.</p>
             <div class="social-links d-flex justify-content-center">
                 <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIjEeFTeIi-4V4D1Zg_f4OOPtTGRrh0Tbp3bHpFvlal9EYE5mheXQlDIeV5-kbQdUn9gxB_baiknIvjiLsw48_Of4YrxDtzSSExeDSMH30S7L2M3PxH_OnoMUm9QANXIN_JIFfybCrg12xxhL1rARLV_sH-6h61Pi0ymNFVwfyqM_ZWCmMh09sDgjBVE/s16000/Afnan%20CV.png"
-                    target="_blank" loading="lazy"><i class="bi bi-person-lines-fill"></i></a>
+                    target="_blank" rel="noopener noreferrer"><i class="bi bi-person-lines-fill"></i></a>
                 <a href="mailto:afnansiddiqui@telegmail.com" target="_blank"><i class="bi bi-envelope-fill"></i></a>
                 <a href="https://www.instagram.com/afnan_nex" target="_blank"><i class="bi bi-instagram"></i></a>
                 <a href="https://www.facebook.com/afnannex" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -4261,9 +4280,8 @@
 
     <!-- Preloader -->
     <div id="preloader"></div>
+    <!-- Vendor JS Files (loaded at bottom of body so parsing is non-blocking) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <!-- Vendor JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
@@ -4282,6 +4300,25 @@
 
     <!-- Main JS File -->
     <script>
+        // Fail-safe preloader auto-dismiss script
+        (function () {
+            function removePreloader() {
+                const preloader = document.querySelector('#preloader');
+                if (preloader) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        if (preloader && preloader.parentNode) preloader.remove();
+                    }, 400);
+                }
+            }
+            if (document.readyState === 'complete') {
+                removePreloader();
+            } else {
+                window.addEventListener('load', removePreloader);
+                document.addEventListener('DOMContentLoaded', () => setTimeout(removePreloader, 1000));
+                setTimeout(removePreloader, 2500); // Fail-safe fallback
+            }
+        })();
 
         (function () {
             "use strict";
@@ -4289,51 +4326,35 @@
             /**
              * Smooth scroll with Lenis
              */
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: 'vertical',
-                gestureOrientation: 'vertical',
-                smoothWheel: true,
-                wheelMultiplier: 1,
-                smoothTouch: false,
-                touchMultiplier: 2,
-                infinite: false,
-            });
+            let lenis;
+            if (typeof Lenis !== 'undefined') {
+                lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    orientation: 'vertical',
+                    gestureOrientation: 'vertical',
+                    smoothWheel: true,
+                    wheelMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                    infinite: false,
+                });
 
-            function raf(time) {
-                lenis.raf(time);
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
                 requestAnimationFrame(raf);
-            }
 
-            requestAnimationFrame(raf);
-
-            // Handle internal link clicks with Lenis
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        lenis.scrollTo(target);
-                    }
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            lenis.scrollTo(target);
+                        }
+                    });
                 });
-            });
-
-
-            /**
-             * Preloader
-             */
-            const preloader = document.querySelector('#preloader');
-
-            if (preloader) {
-                // Remove preloader after page load
-                window.addEventListener('load', () => {
-                    preloader.remove();
-                });
-                // Backup: Remove after 5 seconds just in case 'load' event was missed
-                setTimeout(() => {
-                    if (preloader.parentNode) preloader.remove();
-                }, 5000);
             }
 
             /**
@@ -4346,10 +4367,13 @@
                     window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
                 }
             }
-            scrollTop.addEventListener('click', (e) => {
-                e.preventDefault();
-                lenis.scrollTo(0);
-            });
+            if (scrollTop) {
+                scrollTop.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (lenis) lenis.scrollTo(0);
+                    else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
 
 
             window.addEventListener('load', toggleScrollTop);
@@ -4526,7 +4550,8 @@
                     label.addEventListener('click', (e) => {
                         const target = document.getElementById(id);
                         if (target) {
-                            lenis.scrollTo(target);
+                            if (lenis) lenis.scrollTo(target);
+                            else target.scrollIntoView({ behavior: 'smooth' });
                         }
                     });
                 }
@@ -4588,7 +4613,9 @@
             window.addEventListener('scroll', navmenuScrollspy, { passive: true });
 
             // Also hook into Lenis scroll event for smooth scroll compatibility
-            lenis.on('scroll', navmenuScrollspy);
+            if (lenis && typeof lenis.on === 'function') {
+                lenis.on('scroll', navmenuScrollspy);
+            }
 
         })();
     </script>
@@ -6525,8 +6552,11 @@ void main() {
                   div.className = 'marquee-item';
                   const img = document.createElement('img');
                   img.src = src;
-                  img.alt = 'Marquee item';
+                  img.alt = 'Spotlight Showcase Portfolio Work';
                   img.loading = 'lazy';
+                  img.decoding = 'async';
+                  img.width = itemWidth;
+                  img.height = itemWidth;
                   div.appendChild(img);
                   marqueeTrack.appendChild(div);
                 });
